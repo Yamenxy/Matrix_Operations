@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="matrix.css">
+  <script src="matrix.js"></script>
+  <title>Matrix Operations</title>
+</head>
+<body>
+  <div class="container">
+    <div class="code">
+  <h1>Matrix Operations</h1>
+
+  <div class="matrix">
+    <div>
+  <h2>Enter Matrix A</h2>
+  <label for="aRows">Number of rows:</label>
+  <input type="number" id="aRows">
+  <br><br>
+  <label for="aCols">Number of columns:</label>
+  <input type="number" id="aCols">
+  <br><br>
+  <button onclick="createMatrix('A')">Create Matrix A</button>
+  <div id="matrixA"></div>
+</div>
+<div>
+  <h2>Enter Matrix B</h2>
+  <label for="bRows">Number of rows:</label>
+  <input type="number" id="bRows">
+  <br><br>
+  <label for="bCols">Number of columns:</label>
+  <input type="number" id="bCols">
+  <br><br>
+  <button onclick="createMatrix('B')">Create Matrix B</button>
+  <div id="matrixB"></div>
+  </div>
+</div>
+  <br>
+  <div class="button">
+  <button onclick="addMatrices()">Add</button>
+  <button onclick="subtractMatrices()">Subtract</button>
+  <button onclick="multiplyMatrices()">Multiply</button>
+  </div>
+  <!-- <button onclick="divideMatrices()">Divide</button> -->
+
+  <h2 style="display: flex; justify-content: center;">Result</h2>
+  <div class="result" id="result"></div>
+</div>
+</div>
+
+  
+</body>
+</html>
