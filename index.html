@@ -2,6 +2,8 @@
 <html>
 <head>
   <link rel="stylesheet" href="matrix.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+  <script src="path/to/numeric.min.js"></script>
   <script src="matrix.js"></script>
   <title>Matrix Operations</title>
 </head>
@@ -39,6 +41,10 @@
   <button onclick="addMatrices()">Add</button>
   <button onclick="subtractMatrices()">Subtract</button>
   <button onclick="multiplyMatrices()">Multiply</button>
+  <button onclick="calculateInverse()">Inverse</button>
+  <button onclick="calculateRank()">Rank</button>
+  <!-- <button onclick="calculateRank()">Rank</button> -->
+  <!-- <button onclick="performSRO()">S.R.O.</button> -->
   </div>
   <!-- <button onclick="divideMatrices()">Divide</button> -->
 
@@ -46,7 +52,5 @@
   <div class="result" id="result"></div>
 </div>
 </div>
-
-  
 </body>
 </html>
