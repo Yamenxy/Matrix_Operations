@@ -129,34 +129,34 @@
 
         displayResult(result);
       } else {
-        displayResult('Number of columns in Matrix A must be equal to the number of rows in Matrix B.');
+        displayResult('Number of columns in Matrix (A) must be equal to the number of rows in Matrix (B).');
       }
     }
 
-    function divideMatrices() {
-      matrixAData = getMatrixData('A');
-      matrixBData = getMatrixData('B');
+    // function divideMatrices() {
+    //   matrixAData = getMatrixData('A');
+    //   matrixBData = getMatrixData('B');
 
-      if (matrixBData.length === 1 && matrixBData[0].length === 1 && matrixBData[0][0] !== 0) {
-        const rows = matrixAData.length;
-        const cols = matrixAData[0].length;
-        const result = [];
+    //   if (matrixBData.length === 1 && matrixBData[0].length === 1 && matrixBData[0][0] !== 0) {
+    //     const rows = matrixAData.length;
+    //     const cols = matrixAData[0].length;
+    //     const result = [];
 
-        for (let i = 0; i < rows; i++) {
-          const rowData = [];
+    //     for (let i = 0; i < rows; i++) {
+    //       const rowData = [];
 
-          for (let j = 0; j < cols; j++) {
-            rowData.push(matrixAData[i][j] / matrixBData[0][0]);
-          }
+    //       for (let j = 0; j < cols; j++) {
+    //         rowData.push(matrixAData[i][j] / matrixBData[0][0]);
+    //       }
 
-          result.push(rowData);
-        }
+    //       result.push(rowData);
+    //     }
 
-        displayResult(result);
-      } else {
-        displayResult('Matrix B must be a 1x1 matrix with a non-zero value.');
-      }
-    }
+    //     displayResult(result);
+    //   } else {
+    //     displayResult('Matrix B must be a 1x1 matrix with a non-zero value.');
+    //   }
+    // }
 
     function displayResult(result) {
       const resultContainer = document.getElementById('result');
@@ -185,3 +185,148 @@
       }
     }
   
+
+
+    
+    function calculateInverse() {
+      const matrixAData = getMatrixData('A');
+      const inverse = findInverse(matrixAData);
+      
+      if (inverse) {
+        displayResult('The Inverse Matrix is:');
+        displayMatrix(inverse);
+      } else {
+        displayResult('The matrix is not invertible.');
+      }
+    }
+    
+    function findInverse(matrix) {
+      const rows = matrix.length;
+      const cols = matrix[0].length;
+    
+      if (rows !== cols) {
+        return null; // Matrix is not square, so it is not invertible
+      }
+    
+      // Augment the matrix with an identity matrix
+      const augmentedMatrix = [];
+      for (let row = 0; row < rows; row++) {
+        augmentedMatrix[row] = matrix[row].concat(identityRow(row, cols));
+      }
+    
+      // Apply Gaussian elimination with back substitution
+      for (let row = 0; row < rows; row++) {
+        const pivot = augmentedMatrix[row][row];
+    
+        if (pivot === 0) {
+          let foundNonZero = false;
+    
+          for (let i = row + 1; i < rows; i++) {
+            if (augmentedMatrix[i][row] !== 0) {
+              swapRows(augmentedMatrix, row, i);
+              foundNonZero = true;
+              break;
+            }
+          }
+    
+          if (!foundNonZero) {
+            return null; // Matrix is not invertible
+          }
+    
+          pivot = augmentedMatrix[row][row];
+        }
+    
+        for (let i = 0; i < rows; i++) {
+          if (i === row) continue;
+    
+          const factor = augmentedMatrix[i][row] / pivot;
+    
+          for (let j = row; j < 2 * cols; j++) {
+            augmentedMatrix[i][j] -= augmentedMatrix[row][j] * factor;
+          }
+        }
+    
+        for (let j = row; j < 2 * cols; j++) {
+          augmentedMatrix[row][j] /= pivot;
+        }
+      }
+    
+      // Extract the inverse matrix
+      const inverseMatrix = [];
+      for (let row = 0; row < rows; row++) {
+        inverseMatrix[row] = augmentedMatrix[row].slice(cols);
+      }
+    
+      return inverseMatrix;
+    }
+    
+    function identityRow(row, size) {
+      const identity = Array(size).fill(0);
+      identity[row] = 1;
+      return identity;
+    }
+    
+    function swapRows(matrix, row1, row2) {
+      const temp = matrix[row1];
+      matrix[row1] = matrix[row2];
+      matrix[row2] = temp;
+    }
+    
+    // Rest of the code remains the same...
+
+
+
+    function calculateRank() {
+      const matrixAData = getMatrixData('A');
+      const rank = findRank(matrixAData);
+      const result = 'The Rank is: ' + rank;
+      displayResult(result);
+    }
+
+function findRank(matrix) {
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  let rank = Math.min(rows, cols);
+
+  for (let row = 0; row < rows; row++) {
+    const pivot = matrix[row][row];
+
+    if (pivot === 0) {
+      let foundNonZero = false;
+
+      for (let i = row + 1; i < rows; i++) {
+        if (matrix[i][row] !== 0) {
+          swapRows(matrix, row, i);
+          foundNonZero = true;
+          break;
+        }
+      }
+
+      if (!foundNonZero) {
+        rank--;
+        continue;
+      }
+
+      pivot = matrix[row][row];
+    }
+
+    for (let i = row + 1; i < rows; i++) {
+      const factor = matrix[i][row] / pivot;
+
+      for (let j = row; j < cols; j++) {
+        matrix[i][j] -= matrix[row][j] * factor;
+      }
+    }
+  }
+
+  return rank;
+}
+
+function swapRows(matrix, row1, row2) {
+  const temp = matrix[row1];
+  matrix[row1] = matrix[row2];
+  matrix[row2] = temp;
+}
+
+// Rest of the code remains the same...
+    
